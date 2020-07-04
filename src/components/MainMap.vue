@@ -42,6 +42,8 @@
         </l-tooltip>
       </l-marker>
 
+      <Isochrone :marker="marker" />
+
       <Debug
         :marker="marker"
         :currentZoom="currentZoom"
@@ -58,6 +60,7 @@ import { latLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LTooltip, LControl } from "vue2-leaflet";
 
 import Debug from "./Debug.vue";
+import Isochrone from "./Isochrone.vue";
 
 export default {
   name: "MainMap",
@@ -68,7 +71,8 @@ export default {
     LTooltip,
     LControl,
 
-    Debug
+    Debug,
+    Isochrone
   },
   data() {
     return {
@@ -102,7 +106,7 @@ export default {
       this.showParagraph = !this.showParagraph;
     },
     innerClick() {
-      alert("Click!");
+      // alert("Click!");
     }
   }
 };

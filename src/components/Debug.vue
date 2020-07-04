@@ -24,8 +24,7 @@ export default {
     "currentZoom",
     "selectedDay",
     "selectedHour"
-  ],
-  data() {}
+  ]
 };
 </script>
 
