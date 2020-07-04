@@ -42,7 +42,7 @@
         </l-tooltip>
       </l-marker>
 
-      <Isochrone :marker="marker" />
+      <Isochrone :lat="marker.lat" :lng="marker.lng" :marker="marker" />
 
       <Debug
         :marker="marker"
