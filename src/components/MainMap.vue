@@ -9,7 +9,7 @@
       @update:zoom="zoomUpdate"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
-      <l-control class="legend">
+      <l-control class="legend" style="width: 300px;">
         <p>
           Cette carte montre le
           <b>temps de trajet en transports en commun pour Orléans</b>. Déplacez le point de départ représenté par le marqueur.
@@ -18,21 +18,34 @@
         <div>
           <label for="select-day">Jour de départ:</label>
           <select id="select-day" v-model="selectedDay">
-            <option>Lundi - Vendredi</option>
-            <option>Samedi</option>
-            <option>Dimanche</option>
+            <option
+              v-for="day in parameterConfig.possibleDays"
+              :value="day[0]"
+              :key="day[0]"
+            >{{ day[1] }}</option>
           </select>
         </div>
 
         <div>
           <label for="select-hour">Heure de départ:</label>
           <select id="select-hour" v-model="selectedHour">
-            <option>8h</option>
-            <option>13h</option>
-            <option>17h</option>
-            <option>20h</option>
-            <option>23h</option>
+            <option
+              v-for="hour in parameterConfig.possibleHours"
+              :value="hour[0]"
+              :key="hour[0]"
+            >{{ hour[1] }}</option>
           </select>
+        </div>
+
+        <div style="display:grid">
+          <div
+            v-for="duration in parameterConfig.durations"
+            :key="duration.minutes"
+            style="display: inline-flex;align-items: baseline;"
+          >
+            <div :style="'margin:5px;width:20px;height:10px;background-color:' + duration.color"></div>
+            {{duration.minutes}} min
+          </div>
         </div>
       </l-control>
 
@@ -42,7 +55,13 @@
         </l-tooltip>
       </l-marker>
 
-      <Isochrone :marker="marker" />
+      <Isochrone
+        :lat="marker.lat"
+        :lng="marker.lng"
+        :marker="marker"
+        :day="selectedDay"
+        :hour="selectedHour"
+      />
 
       <Debug
         :marker="marker"
@@ -61,6 +80,7 @@ import { LMap, LTileLayer, LMarker, LTooltip, LControl } from "vue2-leaflet";
 
 import Debug from "./Debug.vue";
 import Isochrone from "./Isochrone.vue";
+import { parameterConfig } from "@/services/isochrone.js";
 
 export default {
   name: "MainMap",
@@ -90,8 +110,9 @@ export default {
       },
       showMap: true,
 
-      selectedDay: "Lundi - Vendredi",
-      selectedHour: "8h"
+      parameterConfig: parameterConfig,
+      selectedDay: parameterConfig.possibleDays[0][0],
+      selectedHour: parameterConfig.possibleHours[0][0]
     };
   },
 
@@ -119,7 +140,7 @@ export default {
   padding: 0.5em;
   border: 1px solid #aaa;
   border-radius: 0.1em;
-  width: 300px;
+
   text-align: left;
 }
 </style>

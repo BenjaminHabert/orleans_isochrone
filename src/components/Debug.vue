@@ -1,5 +1,5 @@
-<template>
-  <l-control class="legend" position="bottomright">
+<template >
+  <l-control class="legend" position="bottomright" v-show="false">
     <p>Debug</p>
     <p>First marker is placed at {{ marker.lat }}, {{ marker.lng }}</p>
     <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
