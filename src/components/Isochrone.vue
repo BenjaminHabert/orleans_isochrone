@@ -16,7 +16,7 @@ export default {
   components: {
     LGeoJson
   },
-  props: ["lat", "lng", "marker"],
+  props: ["lat", "lng", "marker", "day", "hour"],
   data() {
     return {
       geojson: null
@@ -28,12 +28,20 @@ export default {
   watch: {
     marker: function() {
       this.updateIsochrone();
+    },
+    day: function() {
+      this.updateIsochrone();
+    },
+    hour: function() {
+      this.updateIsochrone();
     }
   },
   methods: {
     updateIsochrone() {
-      getIsochrone(this.marker.lat, this.marker.lng).then(
-        data => (this.geojson = data.polygons)
+      getIsochrone(this.marker.lat, this.marker.lng, this.day, this.hour).then(
+        data => {
+          this.geojson = data.polygons;
+        }
       );
     }
   }

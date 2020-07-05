@@ -18,20 +18,22 @@
         <div>
           <label for="select-day">Jour de départ:</label>
           <select id="select-day" v-model="selectedDay">
-            <option>Lundi - Vendredi</option>
-            <option>Samedi</option>
-            <option>Dimanche</option>
+            <option
+              v-for="day in parameterConfig.possibleDays"
+              :value="day[0]"
+              :key="day[0]"
+            >{{ day[1] }}</option>
           </select>
         </div>
 
         <div>
           <label for="select-hour">Heure de départ:</label>
           <select id="select-hour" v-model="selectedHour">
-            <option>8h</option>
-            <option>13h</option>
-            <option>17h</option>
-            <option>20h</option>
-            <option>23h</option>
+            <option
+              v-for="hour in parameterConfig.possibleHours"
+              :value="hour[0]"
+              :key="hour[0]"
+            >{{ hour[1] }}</option>
           </select>
         </div>
       </l-control>
@@ -42,7 +44,13 @@
         </l-tooltip>
       </l-marker>
 
-      <Isochrone :lat="marker.lat" :lng="marker.lng" :marker="marker" />
+      <Isochrone
+        :lat="marker.lat"
+        :lng="marker.lng"
+        :marker="marker"
+        :day="selectedDay"
+        :hour="selectedHour"
+      />
 
       <Debug
         :marker="marker"
@@ -61,6 +69,7 @@ import { LMap, LTileLayer, LMarker, LTooltip, LControl } from "vue2-leaflet";
 
 import Debug from "./Debug.vue";
 import Isochrone from "./Isochrone.vue";
+import { parameterConfig } from "@/services/isochrone.js";
 
 export default {
   name: "MainMap",
@@ -90,8 +99,9 @@ export default {
       },
       showMap: true,
 
-      selectedDay: "Lundi - Vendredi",
-      selectedHour: "8h"
+      parameterConfig: parameterConfig,
+      selectedDay: parameterConfig.possibleDays[0][0],
+      selectedHour: parameterConfig.possibleHours[0][0]
     };
   },
 
