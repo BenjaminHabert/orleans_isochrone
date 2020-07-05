@@ -10,6 +10,11 @@ export const parameterConfig = {
         ['15%3A00%3A00.000Z', '17h'],
         ['18%3A00%3A00.000Z', '20h'],
         ['21%3A00%3A00.000Z', '23h'],
+    ],
+    durations: [
+        { minutes: 45, color: 'red' },
+        { minutes: 30, color: 'yellow' },
+        { minutes: 10, color: 'green' },
     ]
 }
 
@@ -25,14 +30,22 @@ function getUrl(lat, lng, day, hour, durationSeconds) {
     return URL;
 }
 
-export function getIsochrone(lat, lng, day, hour, durationSeconds) {
+export function getIsochrone(lat, lng, day, hour, durationSeconds, color) {
     const URL = getUrl(lat, lng, day, hour, durationSeconds)
-    return fetch(URL).then(response => response.json()).then(data => data.polygons)
+    return fetch(URL).then(response => response.json()).then(data => {
+        const geojson = data.polygons
+        geojson.style = {
+            'color': color,
+            // "fill": "red",
+            // "stroke-width": 3,
+            // "fill-opacity": 0.6
+        }
+        return geojson
+    })
 }
 
 export function getIsochrones(lat, lng, day, hour) {
-    const durations = [10 * 60, 30 * 60, 45 * 60],
-        promises = durations.map(duration => getIsochrone(lat, lng, day, hour, duration));
+    const promises = parameterConfig.durations.map(duration => getIsochrone(lat, lng, day, hour, duration.minutes * 60, duration.color));
 
     return Promise.all(promises);
 }

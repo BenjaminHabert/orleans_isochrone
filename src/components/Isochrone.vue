@@ -1,7 +1,12 @@
 <template>
   <div>
     <div v-if="geojson">
-      <l-geo-json v-for="(polygons, i) in geojson" :key="i" :geojson="polygons"></l-geo-json>
+      <l-geo-json
+        v-for="(polygons, i) in geojson"
+        :key="i"
+        :geojson="polygons"
+        :optionsStyle="polygons.style"
+      ></l-geo-json>
     </div>
 
     <l-control v-show="loading" class="legend" position="bottomleft">
@@ -67,7 +72,7 @@ export default {
   width: 80px;
   height: 80px;
   margin: 1em;
-  margin-right: 1em;
+  margin-right: 2em;
 }
 .lds-dual-ring:after {
   content: " ";

@@ -36,6 +36,17 @@
             >{{ hour[1] }}</option>
           </select>
         </div>
+
+        <div style="display:grid">
+          <div
+            v-for="duration in parameterConfig.durations"
+            :key="duration.minutes"
+            style="display: inline-flex;align-items: baseline;"
+          >
+            <div :style="'margin:5px;width:20px;height:10px;background-color:' + duration.color"></div>
+            {{duration.minutes}} min
+          </div>
+        </div>
       </l-control>
 
       <l-marker :lat-lng.sync="marker" :draggable="true" @dragend="innerClick">
