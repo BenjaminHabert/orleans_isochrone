@@ -13,14 +13,26 @@ export const parameterConfig = {
     ]
 }
 
-export function getIsochrone(lat, lng, day, hour) {
+
+function getUrl(lat, lng, day, hour, durationSeconds) {
     const baseURL = "http://localhost:8989/isochrone?";
     const mainParams = "type=json&locale=fr&profile=pt&result=polygon&buckets=1",
-        durationParam = "&time_limit=1200",
+        durationParam = "&time_limit=" + durationSeconds,
         posititionParam = "&point=" + lat + "," + lng,
         timeParam = "&pt.earliest_departure_time=" + day + "T" + hour;
 
     const URL = baseURL + mainParams + durationParam + posititionParam + timeParam;
+    return URL;
+}
 
-    return fetch(URL).then(response => response.json())
+export function getIsochrone(lat, lng, day, hour, durationSeconds) {
+    const URL = getUrl(lat, lng, day, hour, durationSeconds)
+    return fetch(URL).then(response => response.json()).then(data => data.polygons)
+}
+
+export function getIsochrones(lat, lng, day, hour) {
+    const durations = [10 * 60, 30 * 60, 45 * 60],
+        promises = durations.map(duration => getIsochrone(lat, lng, day, hour, duration));
+
+    return Promise.all(promises);
 }
