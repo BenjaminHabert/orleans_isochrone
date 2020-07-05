@@ -20,7 +20,8 @@ export const parameterConfig = {
 
 
 function getUrl(lat, lng, day, hour, durationSeconds) {
-    const baseURL = "http://localhost:8989/isochrone?";
+    // const baseURL = "http://localhost:8989/isochrone?";
+    const baseURL = "http://ec2-15-236-204-111.eu-west-3.compute.amazonaws.com:8989/isochrone?";
     const mainParams = "type=json&locale=fr&profile=pt&result=polygon&buckets=1",
         durationParam = "&time_limit=" + durationSeconds,
         posititionParam = "&point=" + lat + "," + lng,
