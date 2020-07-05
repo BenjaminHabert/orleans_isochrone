@@ -9,7 +9,7 @@
       @update:zoom="zoomUpdate"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
-      <l-control class="legend">
+      <l-control class="legend" style="width: 300px;">
         <p>
           Cette carte montre le
           <b>temps de trajet en transports en commun pour Orléans</b>. Déplacez le point de départ représenté par le marqueur.
@@ -129,7 +129,7 @@ export default {
   padding: 0.5em;
   border: 1px solid #aaa;
   border-radius: 0.1em;
-  width: 300px;
+
   text-align: left;
 }
 </style>
