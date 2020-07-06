@@ -45,3 +45,18 @@ npm run build
 
 **Note** : the build was slightly modified in `vue.conig.js` to make it compatible with github-pages.
 
+
+## Back-end infrastructure details
+
+### Graphhopper
+
+Graphhopper provides a quickstart example for routing / isochrone mapping [here](https://github.com/graphhopper/graphhopper/blob/master/reader-gtfs/README.md#quick-start) which uses this [configuration](https://github.com/graphhopper/graphhopper/blob/master/reader-gtfs/config-example-pt.yml). [Here](https://github.com/graphhopper/graphhopper/blob/stable/docs/web/api-doc.md#isochrone) is a short API description for their isochrone feature.
+
+When graphhopper is launched for the first time, the data is analysed and graph data is created. On the next launch only the graph data is used; the input data can be discarded. Because this first run is computationnaly heavy, it can be run on a more powerful machine than the one used for the server.
+
+### Server
+
+I use as a server a virtual machine (EC2 on AWS) with 4Gb ram (in my situation graphhopper uses ~1.5 Gb). The graph data was generated on another machine and then uploaded.
+
+nginx is used to encrypt the traffic and to redirect queries to graphhopper with runs as localhost. [certbot](https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx) was used to generate the certificate (which required having a domain name).
+
