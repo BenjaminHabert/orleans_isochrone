@@ -55,7 +55,6 @@ export default {
       this.loading = true;
       getIsochrones(this.marker.lat, this.marker.lng, this.day, this.hour).then(
         data => {
-          console.log(data);
           this.geojson = data;
           this.loading = false;
         }

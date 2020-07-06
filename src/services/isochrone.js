@@ -21,7 +21,8 @@ export const parameterConfig = {
 
 function getUrl(lat, lng, day, hour, durationSeconds) {
     // const baseURL = "http://localhost:8989/isochrone?";
-    const baseURL = "http://ec2-15-236-204-111.eu-west-3.compute.amazonaws.com:8989/isochrone?";
+    // const baseURL = "https://ec2-15-236-204-111.eu-west-3.compute.amazonaws.com/isochrone?";
+    const baseURL = "https://benjexperiments.tech/graphhopper/isochrone?";
     const mainParams = "type=json&locale=fr&profile=pt&result=polygon&buckets=1",
         durationParam = "&time_limit=" + durationSeconds,
         posititionParam = "&point=" + lat + "," + lng,
@@ -32,14 +33,12 @@ function getUrl(lat, lng, day, hour, durationSeconds) {
 }
 
 export function getIsochrone(lat, lng, day, hour, durationSeconds, color) {
-    const URL = getUrl(lat, lng, day, hour, durationSeconds)
-    return fetch(URL).then(response => response.json()).then(data => {
+    const URL = getUrl(lat, lng, day, hour, durationSeconds);
+    const fetchParams = { method: 'GET' }
+    return fetch(URL, fetchParams).then(response => response.json()).then(data => {
         const geojson = data.polygons
         geojson.style = {
-            'color': color,
-            // "fill": "red",
-            // "stroke-width": 3,
-            // "fill-opacity": 0.6
+            'color': color
         }
         return geojson
     })
