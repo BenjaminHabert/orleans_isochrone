@@ -13,6 +13,9 @@
         <p>
           Cette carte montre le
           <b>temps de trajet en transports en commun pour Orléans</b>. Déplacez le point de départ représenté par le marqueur.
+          <a
+            href="https://github.com/BenjaminHabert/orleans_isochrone#orleans-isochrone"
+          >Détails</a>
         </p>
 
         <div>
