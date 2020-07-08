@@ -21,12 +21,12 @@ Le réseau de transport d'Orléans est administré par [Tao](https://www.reseau-
     - données cartographiques [openstreetmap](https://download.geofabrik.de/europe/france/centre.html) de la région Centre
 
 - Logiciels
-    - [Graphhopper](https://github.com/graphhopper/graphhopper) est utilisé pour analyser les données et produire les courbes isochrones de déplacement
+    - [gtfs-isochrone](https://github.com/BenjaminHabert/gtfs-isochrone) est utilisé pour analyser les données et produire les courbes isochrones de déplacement. Cet outil est développé en Python et s'appuie principalement sur Pandas et GeoPandas
     - Vuejs pour développer le site web
 
 - Inrastructure
     - github-pages pour l'hébergement du site web (statique)
-    - AWS EC2 pour héberger le back-end (graphhopper)
+    - AWS EC2 pour héberger le back-end
 
 
 # Development information
@@ -48,15 +48,15 @@ npm run build
 
 ## Back-end infrastructure details
 
-### Graphhopper
+### Server
+
+nginx is used to encrypt the traffic and to redirect queries to the API (uwsgi running a Bottle python application). [certbot](https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx) was used to generate the certificate (which required having a domain name).
+
+
+### Graphhopper (*deprecated*)
+
+I use as a server a virtual machine (EC2 on AWS) with 4Gb ram (in my situation graphhopper uses ~1.5 Gb). The graph data was generated on another machine and then uploaded.
 
 Graphhopper provides a quickstart example for routing / isochrone mapping [here](https://github.com/graphhopper/graphhopper/blob/master/reader-gtfs/README.md#quick-start) which uses this [configuration](https://github.com/graphhopper/graphhopper/blob/master/reader-gtfs/config-example-pt.yml). [Here](https://github.com/graphhopper/graphhopper/blob/stable/docs/web/api-doc.md#isochrone) is a short API description for their isochrone feature.
 
 When graphhopper is launched for the first time, the data is analysed and graph data is created. On the next launch only the graph data is used; the input data can be discarded. Because this first run is computationnaly heavy, it can be run on a more powerful machine than the one used for the server.
-
-### Server
-
-I use as a server a virtual machine (EC2 on AWS) with 4Gb ram (in my situation graphhopper uses ~1.5 Gb). The graph data was generated on another machine and then uploaded.
-
-nginx is used to encrypt the traffic and to redirect queries to graphhopper with runs as localhost. [certbot](https://certbot.eff.org/lets-encrypt/ubuntubionic-nginx) was used to generate the certificate (which required having a domain name).
-

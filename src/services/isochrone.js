@@ -5,11 +5,11 @@ export const parameterConfig = {
         ['2020-07-05', 'Dimanche'],
     ],
     possibleHours: [
-        ['06%3A00%3A00.000Z', '8h'],
-        ['11%3A00%3A00.000Z', '13h'],
-        ['15%3A00%3A00.000Z', '17h'],
-        ['18%3A00%3A00.000Z', '20h'],
-        ['21%3A00%3A00.000Z', '23h'],
+        ['08:00:00', '8h'],
+        ['13:00:00', '13h'],
+        ['17:00:00', '17h'],
+        ['20:00:00', '20h'],
+        ['23:00:00', '23h'],
     ],
     durations: [
         { minutes: 45, color: 'red' },
@@ -20,15 +20,12 @@ export const parameterConfig = {
 
 
 function getUrl(lat, lng, day, hour, durationSeconds) {
-    // const baseURL = "http://localhost:8989/isochrone?";
-    // const baseURL = "https://ec2-15-236-204-111.eu-west-3.compute.amazonaws.com/isochrone?";
-    const baseURL = "https://benjexperiments.tech/graphhopper/isochrone?";
-    const mainParams = "type=json&locale=fr&profile=pt&result=polygon&buckets=1",
-        durationParam = "&time_limit=" + durationSeconds,
-        posititionParam = "&point=" + lat + "," + lng,
-        timeParam = "&pt.earliest_departure_time=" + day + "T" + hour;
+    const baseURL = "https://benjexperiments.tech/gtfs-isochrone/isochrone?";
+    const durationParam = "duration=" + durationSeconds,
+        posititionParam = "&lat=" + lat + "&lon=" + lng,
+        timeParam = "&start=" + day + "T" + hour;
 
-    const URL = baseURL + mainParams + durationParam + posititionParam + timeParam;
+    const URL = baseURL + durationParam + posititionParam + timeParam;
     return URL;
 }
 
@@ -36,7 +33,8 @@ export function getIsochrone(lat, lng, day, hour, durationSeconds, color) {
     const URL = getUrl(lat, lng, day, hour, durationSeconds);
     const fetchParams = { method: 'GET' }
     return fetch(URL, fetchParams).then(response => response.json()).then(data => {
-        const geojson = data.polygons
+        const geojson = data
+        console.log(data)
         geojson.style = {
             'color': color
         }
