@@ -9,7 +9,7 @@
       @update:zoom="zoomUpdate"
     >
       <l-tile-layer :url="url" :attribution="attribution" />
-      <l-control class="legend" style="width: 300px;">
+      <l-control class="legend" style="width: 250px;">
         <p>
           Cette carte montre le
           <b>temps de trajet en transports en commun</b> (et à pied) pour
@@ -41,6 +41,17 @@
           </select>
         </div>
 
+        <div id="example-3">
+          <input type="checkbox" value="foot" checked="true" disabled="true" />
+          <label for="foot">à pied</label>
+          <input type="checkbox" id="bus" v-model="useBus" />
+          <label for="bus">bus</label>
+          <input type="checkbox" id="tram" v-model="useTram" />
+          <label for="tram">tram</label>
+          <br />
+          <br />
+        </div>
+
         <div style="display:grid">
           <div
             v-for="duration in parameterConfig.durations"
@@ -65,6 +76,8 @@
         :marker="marker"
         :day="selectedDay"
         :hour="selectedHour"
+        :useBus="useBus"
+        :useTram="useTram"
       />
 
       <Debug
@@ -116,7 +129,9 @@ export default {
 
       parameterConfig: parameterConfig,
       selectedDay: parameterConfig.possibleDays[0][0],
-      selectedHour: parameterConfig.possibleHours[0][0]
+      selectedHour: parameterConfig.possibleHours[0][0],
+      useBus: true,
+      useTram: true
     };
   },
 

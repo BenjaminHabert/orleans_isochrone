@@ -28,7 +28,7 @@ export default {
     LGeoJson,
     LControl
   },
-  props: ["lat", "lng", "marker", "day", "hour"],
+  props: ["lat", "lng", "marker", "day", "hour", "useBus", "useTram"],
   data() {
     return {
       geojson: null,
@@ -47,18 +47,30 @@ export default {
     },
     hour: function() {
       this.updateIsochrone();
+    },
+    useBus: function() {
+      this.updateIsochrone();
+    },
+    useTram: function() {
+      this.updateIsochrone();
     }
   },
   methods: {
     updateIsochrone() {
+      console.log(this.useBus, this.useTram);
       //   this.geojson = null;
       this.loading = true;
-      getIsochrones(this.marker.lat, this.marker.lng, this.day, this.hour).then(
-        data => {
-          this.geojson = data;
-          this.loading = false;
-        }
-      );
+      getIsochrones(
+        this.marker.lat,
+        this.marker.lng,
+        this.day,
+        this.hour,
+        this.useBus,
+        this.useTram
+      ).then(data => {
+        this.geojson = data;
+        this.loading = false;
+      });
     }
   }
 };

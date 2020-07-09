@@ -19,18 +19,20 @@ export const parameterConfig = {
 }
 
 
-function getUrl(lat, lng, day, hour, durationSeconds) {
-    const baseURL = "https://benjexperiments.tech/gtfs-isochrone/isochrone?";
+function getUrl(lat, lng, day, hour, useBus, useTram, durationSeconds) {
+    // const baseURL = "https://benjexperiments.tech/gtfs-isochrone/isochrone?";
+    const baseURL = "http://localhost:9090/isochrone?"
     const durationParam = "duration=" + durationSeconds,
         posititionParam = "&lat=" + lat + "&lon=" + lng,
-        timeParam = "&start=" + day + "T" + hour;
+        timeParam = "&start=" + day + "T" + hour,
+        transportationParameters = "&bus=" + useBus + "&tram=" + useTram;
 
-    const URL = baseURL + durationParam + posititionParam + timeParam;
+    const URL = baseURL + durationParam + posititionParam + timeParam + transportationParameters;
     return URL;
 }
 
-export function getIsochrone(lat, lng, day, hour, durationSeconds, color) {
-    const URL = getUrl(lat, lng, day, hour, durationSeconds);
+export function getIsochrone(lat, lng, day, hour, useBus, useTram, durationSeconds, color) {
+    const URL = getUrl(lat, lng, day, hour, useBus, useTram, durationSeconds);
     const fetchParams = { method: 'GET' }
     return fetch(URL, fetchParams).then(response => response.json()).then(data => {
         const geojson = data
@@ -42,8 +44,8 @@ export function getIsochrone(lat, lng, day, hour, durationSeconds, color) {
     })
 }
 
-export function getIsochrones(lat, lng, day, hour) {
-    const promises = parameterConfig.durations.map(duration => getIsochrone(lat, lng, day, hour, duration.minutes * 60, duration.color));
+export function getIsochrones(lat, lng, day, hour, useBus, useTram) {
+    const promises = parameterConfig.durations.map(duration => getIsochrone(lat, lng, day, hour, useBus, useTram, duration.minutes * 60, duration.color));
 
     return Promise.all(promises);
 }
