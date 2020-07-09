@@ -43,7 +43,36 @@ npm run lint
 npm run build
 ```
 
-**Note** : the build was slightly modified in `vue.conig.js` to make it compatible with github-pages.
+## Front-end deployment
+
+This is deployed mannualy. On AWS:
+
+```
+git clone https://github.com/BenjaminHabert/orleans_isochrone.git
+cd orleans-isochrone/
+npm install
+npm run build
+```
+
+The we use nginx to serve the built website:
+
+- modify the file `/etc/nginx/sites-available.conf`:
+
+    ```
+    server {
+        listen 443 ssl;
+        .....
+
+        include /etc/nginx/sites-available/apps/*;  # <---  add this
+    }
+    ```
+
+- create a symbolic link to the app configration (`orleans.nginx.conf`) :
+
+    ```
+    sudo ln -s /home/ubuntu/orleans_isochrone/orleans.nginx.conf /etc/nginx/sites-available/apps/orleans-web.conf
+    sudo nginx -s reload
+    ```
 
 
 ## Back-end infrastructure details
