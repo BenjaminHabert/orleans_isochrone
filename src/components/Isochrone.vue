@@ -57,7 +57,6 @@ export default {
   },
   methods: {
     updateIsochrone() {
-      console.log(this.useBus, this.useTram);
       //   this.geojson = null;
       this.loading = true;
       getIsochrones(
