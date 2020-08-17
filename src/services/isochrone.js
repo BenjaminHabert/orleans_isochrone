@@ -20,7 +20,8 @@ export const parameterConfig = {
 
 
 function getUrl(lat, lng, day, hour, useBus, useTram, durationSeconds) {
-    const baseURL = "https://benjexperiments.tech/gtfs-isochrone/isochrone?";
+    const baseURL = "/gtfs-isochrone/isochrone?";
+    // const baseURL = "https://benjexperiments.tech/gtfs-isochrone/isochrone?";
     // const baseURL = "http://localhost:9090/isochrone?";
     const durationParam = "duration=" + durationSeconds,
         posititionParam = "&lat=" + lat + "&lon=" + lng,
